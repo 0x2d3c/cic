@@ -18,7 +18,7 @@ type StreamClient struct {
 
 func (sc *StreamClient) In() {
 	for {
-		msg := PoolPacket.Get().(*Packet)
+		msg := poolPacket.Get().(*Packet)
 		if err := sc.conn.ReadJSON(&msg); err != nil {
 			continue
 		}
@@ -44,7 +44,7 @@ func (sc *StreamClient) Out() {
 			break
 		}
 
-		msg := PoolPacket.Get().(*Packet)
+		msg := poolPacket.Get().(*Packet)
 		msg.Msg = txt
 		msg.Typ = Message
 
@@ -53,7 +53,7 @@ func (sc *StreamClient) Out() {
 }
 
 func ClientRun() {
-	u := url.URL{Scheme: "ws", Host: cfg.Addr, Path: "/chat"}
+	u := url.URL{Scheme: "ws", Host: cfg.Addr, Path: cfg.Uri}
 
 	conn, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {

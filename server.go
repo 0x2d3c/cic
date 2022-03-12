@@ -57,7 +57,7 @@ type Stream struct {
 
 func (stream *Stream) Run() {
 	for {
-		packet := PoolPacket.Get().(*Packet)
+		packet := poolPacket.Get().(*Packet)
 		if err := stream.conn.ReadJSON(&packet); err != nil {
 			fmt.Println("read err", err.Error())
 			break
@@ -90,7 +90,8 @@ END:
 	}
 }
 
-var upgrade = websocket.Upgrader{} // use default options
+var upgrade = websocket.Upgrader{}
+
 func Handler(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrade.Upgrade(w, r, nil)
 	if err != nil {
@@ -107,7 +108,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ServerRun() {
-	http.HandleFunc("/chat", Handler)
+	http.HandleFunc(cfg.Uri, Handler)
 	if err := http.ListenAndServe(cfg.Addr, nil); err != nil {
 		fmt.Println(err.Error())
 	}

@@ -6,7 +6,7 @@ import (
 
 var (
 	cfg        Config
-	PoolPacket = sync.Pool{New: func() interface{} { return &Packet{} }}
+	poolPacket = sync.Pool{New: func() interface{} { return &Packet{} }}
 )
 
 type Packet struct {
