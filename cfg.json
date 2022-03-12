@@ -1,0 +1,5 @@
+{
+  "uri": "chat",
+  "name": "YOUR_NAME",
+  "addr": "0.0.0.0:8081"
+}
